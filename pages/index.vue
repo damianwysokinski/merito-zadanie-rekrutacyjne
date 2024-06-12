@@ -49,12 +49,17 @@ try {
   console.log({ err });
 }
 
+const formatDate = (dateString: string) => {
+  return format(new Date(dateString), 'yyyy-MM-dd');
+};
+
 const filteredCharacters = computed(() => {
   return charactersData.value.filter(character => {
     const nameMatch = character.name.toLowerCase().includes(search.value.toLowerCase());
     const statusMatch = !selectedStatus.value || character.status === selectedStatus.value;
-    const startDateMatch = !startDate.value || format(new Date(character.created), 'yyyy-MM-dd') >= format(new Date(startDate.value), 'yyyy-MM-dd');
-    const endDateMatch = !endDate.value || format(new Date(character.created), 'yyyy-MM-dd') <= format(new Date(endDate.value), 'yyyy-MM-dd');
+    const startDateMatch = !startDate.value || formatDate(character.created) >= formatDate(startDate.value);
+    const endDateMatch = !endDate.value || formatDate(character.created) <= formatDate(endDate.value);
+    
     return nameMatch && statusMatch && startDateMatch && endDateMatch;
   });
 });
