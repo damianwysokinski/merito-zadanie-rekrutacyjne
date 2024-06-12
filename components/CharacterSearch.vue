@@ -14,7 +14,6 @@
         hide-details
         single-line
         max-width="400"
-        @input="emitSearch"
     ></v-text-field>
 
     <v-select
@@ -26,7 +25,6 @@
         flat
         hide-details
         max-width="200"
-        @change="emitSelectedStatus"
     ></v-select>
 
     <v-date-input
@@ -39,7 +37,6 @@
         flat
         hide-details
         max-width="300"
-        @change="emitStartDate"
     ></v-date-input>
 
     <v-date-input
@@ -52,7 +49,6 @@
         flat
         hide-details
         max-width="300"
-        @change="emitEndDate"
     ></v-date-input>
   </v-card-title>
 </template>
@@ -76,21 +72,21 @@ const selectedStatus = ref(props.selectedStatus);
 const startDate = ref(props.startDate);
 const endDate = ref(props.endDate);
 
-const emitSearch = () => {
-  emit('update:search', search.value);
-};
+watch(search, (newValue) => {
+  emit('update:search', newValue);
+});
 
-const emitSelectedStatus = () => {
-  emit('update:selectedStatus', selectedStatus.value);
-};
+watch(selectedStatus, (newValue) => {
+  emit('update:selectedStatus', newValue);
+});
 
-const emitStartDate = () => {
-  emit('update:startDate', startDate.value);
-};
+watch(startDate, (newValue) => {
+  emit('update:startDate', newValue);
+});
 
-const emitEndDate = () => {
-  emit('update:endDate', endDate.value);
-};
+watch(endDate, (newValue) => {
+  emit('update:endDate', newValue);
+});
 </script>
 
 <style scoped>
