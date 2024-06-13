@@ -42,9 +42,7 @@ const getStatusClass = (status: string) => {
   }
 };
 
-const formatDate = (dateString: string) => {
-  return format(new Date(dateString), 'dd MMM yyyy');
-};
+const formatDate = (dateString: string) => format(new Date(dateString), 'dd MMM yyyy');
 </script>
 
 <style scoped>
