@@ -33,7 +33,6 @@ const itemsPerPage = ref(8);
 
 const charactersData = ref<ICharacter[]>([]);
 
-
 const headers = [
   { title: 'Photo', key: 'image', sortable: false },
   { title: 'Name', key: 'name' },
@@ -42,16 +41,18 @@ const headers = [
   { title: 'Created', key: 'created', sortable: false },
 ];
 
-try {
-  const res = await useFetchCharacters();
-  charactersData.value = res.data?.value.results;
-} catch (err) {
-  console.log({ err });
-}
-
-const formatDate = (dateString: string) => {
-  return format(new Date(dateString), 'yyyy-MM-dd');
+const fetchCharacters = async () => {
+  try {
+    const res = await useFetchCharacters();
+    charactersData.value = res.data?.value.results ?? [];
+  } catch (err) {
+    console.error(err);
+  }
 };
+
+fetchCharacters();
+
+const formatDate = (dateString: string) => format(new Date(dateString), 'yyyy-MM-dd');
 
 const filteredCharacters = computed(() => {
   return charactersData.value.filter(character => {
@@ -59,7 +60,7 @@ const filteredCharacters = computed(() => {
     const statusMatch = !selectedStatus.value || character.status === selectedStatus.value;
     const startDateMatch = !startDate.value || formatDate(character.created) >= formatDate(startDate.value);
     const endDateMatch = !endDate.value || formatDate(character.created) <= formatDate(endDate.value);
-    
+
     return nameMatch && statusMatch && startDateMatch && endDateMatch;
   });
 });
